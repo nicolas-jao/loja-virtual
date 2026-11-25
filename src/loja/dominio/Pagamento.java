@@ -44,21 +44,16 @@ public class Pagamento {
     /** Valida as regras do método de pagamento e aprova o pagamento. */
     public void processar() {
         if (status != Status.PENDENTE) {
-            throw new IllegalStateException("Pagamento já foi processado");
-        }
+            throw new IllegalStateException("Pagamento já foi processado");}
         if (valor.signum() <= 0) {
-            throw new IllegalArgumentException("Valor do pagamento deve ser positivo");
-        }
+            throw new IllegalArgumentException("Valor do pagamento deve ser positivo");}
         if (metodo == Metodo.CARTAO_CREDITO) {
             if (parcelas < 1 || parcelas > 12) {
-                throw new IllegalArgumentException("Parcelamento permitido: de 1 a 12 vezes");
-            }
+                throw new IllegalArgumentException("Parcelamento permitido: de 1 a 12 vezes");}
             if (valorParcela().compareTo(PARCELA_MINIMA) < 0) {
-                throw new IllegalArgumentException("Parcela mínima de R$ 5,00");
-            }
+                throw new IllegalArgumentException("Parcela mínima de R$ 5,00");}
         } else if (parcelas != 1) {
-            throw new IllegalArgumentException("Este método de pagamento só permite pagamento à vista");
-        }
+            throw new IllegalArgumentException("Este método de pagamento só permite pagamento à vista");}
         status = Status.APROVADO;
         processadoEm = LocalDateTime.now();
     }

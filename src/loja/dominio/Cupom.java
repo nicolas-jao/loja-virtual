@@ -86,20 +86,15 @@ public class Cupom {
      */
     public BigDecimal calcularDesconto(BigDecimal subtotal, Cliente cliente, LocalDate hoje) {
         if (!ativo) {
-            return BigDecimal.ZERO;
-        }
+            return BigDecimal.ZERO;}
         if (validade != null && hoje.isAfter(validade)) {
-            return BigDecimal.ZERO;
-        }
+            return BigDecimal.ZERO;}
         if (usoMaximo > 0 && usos >= usoMaximo) {
-            return BigDecimal.ZERO;
-        }
+            return BigDecimal.ZERO;}
         if (valorMinimo != null && subtotal.compareTo(valorMinimo) < 0) {
-            return BigDecimal.ZERO;
-        }
+            return BigDecimal.ZERO;}
         if (nivelExigido != null && cliente.getNivel().compareTo(nivelExigido) < 0) {
-            return BigDecimal.ZERO;
-        }
+            return BigDecimal.ZERO;}
         BigDecimal desconto = tipo.aplicar(valor, subtotal);
         return desconto.min(subtotal).setScale(2, RoundingMode.HALF_UP);
     }

@@ -31,14 +31,11 @@ public class Avaliacao {
     /** Garante que a avaliação tem autor, produto e nota entre 1 e 5. */
     public final void validar() {
         if (cliente == null || produto == null) {
-            throw new IllegalArgumentException("Avaliação precisa de cliente e produto");
-        }
+            throw new IllegalArgumentException("Avaliação precisa de cliente e produto");}
         if (nota < 1 || nota > 5) {
-            throw new IllegalArgumentException("A nota deve estar entre 1 e 5");
-        }
+            throw new IllegalArgumentException("A nota deve estar entre 1 e 5");}
         if (comentario.length() > 500) {
-            throw new IllegalArgumentException("Comentário muito longo (máximo 500 caracteres)");
-        }
+            throw new IllegalArgumentException("Comentário muito longo (máximo 500 caracteres)");}
     }
 
     public String estrelas() {

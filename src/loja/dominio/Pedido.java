@@ -54,17 +54,14 @@ public class Pedido {
     public void adicionarItem(Produto produto, int quantidade) {
         exigirStatus(Status.CRIADO);
         if (quantidade <= 0) {
-            throw new IllegalArgumentException("Quantidade deve ser positiva");
-        }
+            throw new IllegalArgumentException("Quantidade deve ser positiva");}
         if (!produto.disponivel(quantidade)) {
-            throw new IllegalStateException("Produto indisponível: " + produto.getNome());
-        }
+            throw new IllegalStateException("Produto indisponível: " + produto.getNome());}
         produto.getEstoque().retirar(quantidade);
         for (ItemPedido item : itens) {
             if (item.getProduto() == produto) {
                 item.somar(quantidade);
-                return;
-            }
+                return;}
         }
         itens.add(new ItemPedido(produto, quantidade));
     }
@@ -150,8 +147,7 @@ public class Pedido {
     /** Cancela o pedido: devolve o estoque, estorna o pagamento e desfaz pontos e uso do cupom. */
     public void cancelar() {
         if (!podeCancelar()) {
-            throw new IllegalStateException("Pedido " + status + " não pode ser cancelado");
-        }
+            throw new IllegalStateException("Pedido " + status + " não pode ser cancelado");}
         for (ItemPedido item : itens) {
             item.getProduto().getEstoque().adicionar(item.getQuantidade());
         }
@@ -159,9 +155,7 @@ public class Pedido {
             pagamento.estornar();
             cliente.removerPontos(pagamento.getValor().intValue());
             if (cupom != null) {
-                cupom.desfazerUso();
-            }
-        }
+                cupom.desfazerUso();}}
         status = Status.CANCELADO;
     }
 

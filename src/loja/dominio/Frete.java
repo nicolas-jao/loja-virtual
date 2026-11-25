@@ -47,37 +47,29 @@ public class Frete {
     public BigDecimal calcular(Endereco destino, BigDecimal pesoKg, BigDecimal valorPedido,
                                Modalidade modalidade, boolean clienteVip) {
         if (destino == null || !destino.cepValido()) {
-            throw new IllegalArgumentException("Endereço de entrega inválido");
-        }
+            throw new IllegalArgumentException("Endereço de entrega inválido");}
         if (pesoKg == null || pesoKg.signum() <= 0) {
-            throw new IllegalArgumentException("Peso do pedido deve ser positivo");
-        }
+            throw new IllegalArgumentException("Peso do pedido deve ser positivo");}
         Objects.requireNonNull(valorPedido, "valorPedido");
         Objects.requireNonNull(modalidade, "modalidade");
-
         BigDecimal custo = tarifaBase.get(destino.regiao());
         if (pesoKg.compareTo(LIMITE_PESO_KG) > 0) {
-            custo = custo.add(pesoKg.subtract(LIMITE_PESO_KG).multiply(adicionalPorKg));
-        }
+            custo = custo.add(pesoKg.subtract(LIMITE_PESO_KG).multiply(adicionalPorKg));}
         if (modalidade == Modalidade.EXPRESSO) {
             custo = custo.multiply(fatorExpresso);
         } else if (modalidade == Modalidade.RETIRADA) {
-            return BigDecimal.ZERO.setScale(2);
-        }
+            return BigDecimal.ZERO.setScale(2);}
         if (clienteVip) {
-            custo = custo.multiply(fatorVip);
-        }
+            custo = custo.multiply(fatorVip);}
         if (valorPedido.compareTo(limiteFreteGratis) >= 0) {
-            return BigDecimal.ZERO.setScale(2);
-        }
+            return BigDecimal.ZERO.setScale(2);}
         return custo.setScale(2, RoundingMode.HALF_UP);
     }
 
     /** Prazo estimado de entrega em dias úteis. */
     public int prazoEstimadoDias(Endereco destino, Modalidade modalidade) {
         if (modalidade == Modalidade.RETIRADA) {
-            return 0;
-        }
+            return 0;}
         int prazo = destino.regiao() == Endereco.Regiao.SUDESTE ? 3 : 7;
         return modalidade == Modalidade.EXPRESSO ? Math.max(1, prazo / 2) : prazo;
     }

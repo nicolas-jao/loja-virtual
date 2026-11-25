@@ -57,12 +57,10 @@ public class Cliente {
     /** Valida o CPF pelos dois dígitos verificadores. */
     public boolean cpfValido() {
         if (cpf == null) {
-            return false;
-        }
+            return false;}
         String d = cpf.replaceAll("\\D", "");
         if (d.length() != 11 || d.chars().distinct().count() == 1) {
-            return false;
-        }
+            return false;}
         return digito(d, 9) == d.charAt(9) - '0' && digito(d, 10) == d.charAt(10) - '0';
     }
 
